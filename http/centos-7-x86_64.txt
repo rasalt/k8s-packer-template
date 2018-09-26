@@ -1,0 +1,85 @@
+install
+text
+
+cdrom
+
+lang en_US.UTF-8
+keyboard us
+
+network --onboot yes --bootproto dhcp --noipv6
+
+timezone --utc UTC
+
+zerombr
+clearpart --all --initlabel
+bootloader --location=mbr
+
+# If you want swap and LVM, uncomment the following 5 lines
+# and comment the lone part command below.
+#part /boot --fstype=ext3 --size=256
+#part pv.01 --size=1024 --grow
+#volgroup vg_root pv.01
+#logvol swap --fstype swap --name=lv_swap --vgname=vg_root --size=256
+#logvol / --fstype=ext4 --name=lv_root --vgname=vg_root --size=1024 --grow
+
+part / --fstype=ext4 --size=1024 --grow
+
+authconfig --enableshadow --passalgo=sha512
+
+rootpw changeme
+
+firewall --disabled
+selinux --disabled
+
+services --disabled=NetworkManager,kdump --enabled=network,sshd
+
+skipx
+
+reboot
+
+%packages --nobase
+@core
+openssh-server
+openssh-clients
+-aic94xx-firmware
+-alsa-firmware
+-alsa-tools-firmware
+-alsa-lib
+-biosdevname
+-btrfs-progs
+-cronie-anacron
+-cronie
+-crontabs
+-ivtv-firmware
+-iwl5000-firmware
+-iwl6000g2b-firmware
+-iwl7260-firmware
+-iwl6050-firmware
+-iwl135-firmware
+-iwl105-firmware
+-iwl1000-firmware
+-iwl5150-firmware
+-iwl4965-firmware
+-iwl3160-firmware
+-iwl3945-firmware
+-iwl6000g2a-firmware
+-iwl2030-firmware
+-iwl100-firmware
+-iwl6000-firmware
+-iwl2000-firmware
+-kexec-tools
+-libertas-sd8787-firmware
+-libertas-usb8388-firmware
+-libertas-sd8686-firmware
+-ModemManager-glib
+-NetworkManager
+-NetworkManager-glib
+-NetworkManager-tui
+-NetworkManager-wifi
+-plymouth-scripts
+-postfix
+-wpa_supplicant
+%end
+
+%post
+%end

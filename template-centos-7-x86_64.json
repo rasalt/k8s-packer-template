@@ -1,0 +1,38 @@
+{
+  "builders": [
+    {
+      "type": "qemu",
+      "name": "centos-7-x86_64-1804-image",
+      "vm_name": "centos-7-x86_64-1804-image",
+      "output_directory": "output",
+      "accelerator": "kvm",
+      "disk_size": 2048,
+      "format": "qcow2",
+      "headless": true,
+      "http_directory": "http",
+      "iso_checksum": "714acc0aefb32b7d51b515e25546835e55a90da9fb00417fbee2d03a62801efd",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://mirrors.mit.edu/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1804.iso",
+      "shutdown_command": "/sbin/shutdown -hP now",
+      "ssh_username": "root",
+      "ssh_password": "changeme",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "qemu_binary": "qemu-kvm",
+      "qemuargs": [ [ "-m", "1024m" ] ],
+      "boot_wait": "10s",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7-x86_64.txt<enter><wait>"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/hello.sh"
+      ],
+        "execute_command": "sh '{{.Path}}'"
+    }
+  ]
+}
