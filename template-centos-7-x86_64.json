@@ -3,11 +3,11 @@
     {
       "type": "qemu",
       "name": "centos-7-x86_64-1804-image",
-      "vm_name": "centos-7-x86_64-1804-image",
+      "vm_name": "disk.raw",
       "output_directory": "output",
       "accelerator": "kvm",
       "disk_size": 2048,
-      "format": "qcow2",
+      "format": "raw",
       "headless": true,
       "http_directory": "http",
       "iso_checksum": "714acc0aefb32b7d51b515e25546835e55a90da9fb00417fbee2d03a62801efd",
@@ -34,5 +34,22 @@
       ],
         "execute_command": "sh '{{.Path}}'"
     }
+  ],
+"post-processors": [
+    [
+      {
+        "type": "compress",
+        "output": "output/disk.raw.tar.gz"
+      },
+      {
+        "type": "googlecompute-import",
+        "project_id": "<project>",
+        "account_file": "<acc json>",
+        "bucket": "<gsbucket>",
+        "image_name": "centos-{{timestamp}}",
+        "image_description": "centos build",
+        "image_family": "centos-packer"
+      }
+    ]
   ]
 }
